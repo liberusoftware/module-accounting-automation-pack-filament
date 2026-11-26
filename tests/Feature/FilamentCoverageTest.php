@@ -13,14 +13,16 @@ use Liberu\Accounting\AutomationPackFilament\Resources\AutomationRecipeResource\
 
 it('registers and configures accounting-automation-pack-filament filament resources', function (): void {
     $provider = $this->app->register(AutomationPackFilamentServiceProvider::class, force: true);
-    if (method_exists($provider, 'boot')) { $provider->boot(); }
+    if (method_exists($provider, 'boot')) {
+        $provider->boot();
+    }
     expect($provider)->toBeInstanceOf(AutomationPackFilamentServiceProvider::class);
     $plugin = AutomationPackFilamentPlugin::make();
     $panel = Panel::make()->id('test-accounting-automation-pack-filament');
     $plugin->register($panel);
     $plugin->boot($panel);
     expect($plugin->getId())->toBeString()->not->toBeEmpty();
-    $host = new ListAutomationRecipes;
+    $host = new ListAutomationRecipes();
     expect(AutomationRecipeResource::getPages())->toBeArray();
     expect(AutomationRecipeResource::getEloquentQuery())->toBeInstanceOf(Builder::class);
     expect(AutomationRecipeResource::form(Schema::make($host)))->toBeInstanceOf(Schema::class);
